@@ -1,0 +1,61 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "dts watch",
+    "build": "dts build",
+    "test": "dts test --passWithNoTests",
+    "lint": "dts lint",
+    "prepare": "dts build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "dts lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "niue",
+  "author": "Benjamin Smith",
+  "module": "dist/react-state-utils.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/react-state-utils.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/react-state-utils.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^5.0.4",
+    "@types/react": "^17.0.22",
+    "@types/react-dom": "^17.0.9",
+    "dts-cli": "^0.17.1",
+    "husky": "^7.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "size-limit": "^5.0.4",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.3"
+  }
+}
