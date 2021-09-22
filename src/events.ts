@@ -2,7 +2,7 @@ import { DependencyList, useEffect } from "react";
 
 let counter: number = 0;
 
-const PREFIX = "reactstateutilsevent";
+const PREFIX = "niueevent";
 
 export default function createEvent<T>(): [
     // Receiver

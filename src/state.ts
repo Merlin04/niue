@@ -11,10 +11,7 @@ let counter: number = 0;
 
 export default function createState<T>(initialValue: T): [
     // Consumer hook
-    (keys?: (keyof T)[] | null) =>
-        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaa this is terrible
-        //typeof keys extends infer KeyType ? KeyType extends undefined ? T : KeyType extends (keyof T)[] ? Pick<T, KeyType[number]> : never : never,
-        T,
+    (keys?: (keyof T)[] | null) => T,
     // Patcher
     (state?: Partial<T>) => void
 ] {
@@ -64,5 +61,3 @@ export default function createState<T>(initialValue: T): [
         }
     ];
 }
-
-//type ObjectEntriesItem<T, Key extends keyof T> = [Key, T[Key]];
