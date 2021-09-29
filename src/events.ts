@@ -17,8 +17,6 @@ export default function createEvent<T>(): [
         (callback, deps) => {
             useEffect(() => {
                 const l = (e: Event) => {
-                    console.log(eventName);
-                    console.log(e);
                     callback((e as CustomEvent<T>).detail);
                 };
                 document.addEventListener(eventName, l);

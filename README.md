@@ -2,7 +2,7 @@
 
 ### A tiny shared state and event library for React
 
-Niue is a small library (~1.3kb before compression) that provides a simple way to manage your React app's shared state and send events between components.
+Niue is a small library (~1.0kb before compression) that provides a simple way to manage your React app's shared state and send events between components.
 
 ## Why Niue?
 

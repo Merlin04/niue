@@ -50,11 +50,11 @@ export default function createState<T>(initialValue: T): [
                     }
                     else {
                         db[id] = state;
-                        trackStore[id] = { ...state };    
+                        trackStore[id] = Object.assign({}, state);    
                     }
                 }
                 else {
-                    trackStore[id] = { ...db[id] };
+                    trackStore[id] = Object.assign(db[id]);
                 }
             }
             emitter({ changed });
