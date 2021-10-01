@@ -4,17 +4,17 @@ let counter: number = 0;
 
 const PREFIX = "niueevent";
 
-export default function createEvent<T>(): [
-    // Receiver
-    (callback: (data: T) => void, deps: DependencyList) => void,
-    // Emitter
-    (data: T) => void
-] {
+export type NiueEventResult<T> = {
+    useReceiver: (callback: (data: T) => void, deps: DependencyList) => void,
+    emit: (data: T) => void
+};
+
+export default function createEvent<T>(): NiueEventResult<T> {
     const eventName = PREFIX + counter;
     counter++;
 
-    return [
-        (callback, deps) => {
+    return {
+        useReceiver(callback, deps) {
             useEffect(() => {
                 const l = (e: Event) => {
                     callback((e as CustomEvent<T>).detail);
@@ -26,11 +26,11 @@ export default function createEvent<T>(): [
                 }
             }, deps);
         },
-        (data) => {
+        emit(data) {
             const e = new CustomEvent(eventName, {
                 detail: data
             });
             document.dispatchEvent(e);
         }
-    ]
+    };
 }
