@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -34,7 +34,7 @@
     "trailingComma": "es5"
   },
   "name": "niue",
-  "author": "Benjamin Smith",
+  "author": "https://github.com/Merlin04",
   "module": "dist/niue.esm.js",
   "size-limit": [
     {

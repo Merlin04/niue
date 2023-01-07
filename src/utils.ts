@@ -1,3 +1,4 @@
 import { useReducer } from "react";
 
-export const useRerender = () => useReducer(_ => Object.create(null), undefined)[1];
+// https://stackoverflow.com/a/58606536
+export const useRerender = () => useReducer(_ => ({}), 0)[1];

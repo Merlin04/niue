@@ -1,63 +1,59 @@
-import createEvent from "./events";
+import { createEvent } from "./events";
 import { useRerender } from "./utils";
 
-type DB = {
-    [key: number]: any
-};
-
-const db: DB = {};
-const trackStore: DB = {};
-let counter: number = 0;
-
-export default function createState<T>(initialValue: T): [
+export const createState = <T extends object>(initialValue: T): [
     // Consumer hook
     (keys?: (keyof T)[] | null) => T,
     // Patcher
-    (state?: Partial<T>) => void
-] {
-    const id = counter;
-    counter++;
-    db[id] = initialValue;
-    trackStore[id] = initialValue;
+    (patch?: Partial<T> | (keyof T)[], changed?: (keyof T)[]) => void,
+    // Get state (not hook)
+    () => T
+] => {
+    let db = initialValue;
+    let trackStore = {...initialValue};
 
-    const [useReceiver, emitter] = createEvent<{
-        changed: (keyof T)[]
-    }>();
+    const [useReceiver, emitter] = createEvent<(keyof T)[]>();
 
     return [
         (keys) => {
-            if(keys !== null) {
+            if(keys) {
                 const rerender = useRerender();
-                useReceiver(({changed}) => {
+                useReceiver((changed) => {
                     if(!keys || changed.some(k => keys.includes(k))) {
                         rerender();
                     }
                 }, []);    
             }
-            return db[id];
+            return db;
         },
-        (state) => {
-            const changed = Object.entries(state ?? db[id]).filter(([key, val]) => val !== trackStore[id][key]).map(([key]) => key) as (keyof T)[];
-            // Clone so future edits to the object are tracked separately
-            if(changed.length > 0) {
-                if(state) {
-                    if(Object.keys(state).length < Object.keys(db[id]).length) {
-                        // Patch instead of replacing the state
-                        for(const prop in state) {
-                            db[id][prop] = state[prop];
-                            trackStore[id][prop] = state[prop];
-                        }
-                    }
-                    else {
-                        db[id] = state;
-                        trackStore[id] = Object.assign({}, state);    
-                    }
-                }
-                else {
-                    trackStore[id] = Object.assign(db[id]);
+        (patch, changed) => {
+            if(Array.isArray(patch)) {
+                changed = patch;
+                patch = undefined;
+            }
+
+            if(patch) {
+                // apply patch to db
+                for(const prop in patch) {
+                    db[prop] = patch[prop]!;
                 }
             }
-            emitter({ changed });
-        }
+
+            changed ??= (
+                Object.entries(db)
+                    .filter(([key, val]) => val !== trackStore[key as keyof T])
+                    .map(([key]) => key)
+            ) as (keyof T)[];
+
+            // update the trackStore so we can track future changes
+            // (notably, this won't add any imperative changes that weren't in user-provided
+            //  `changed` to the trackStore, so they can still be dispatched later)
+            for(const prop of changed) {
+                trackStore[prop] = db[prop];
+            }
+
+            emitter(changed);
+        },
+        () => db
     ];
-}
+};
