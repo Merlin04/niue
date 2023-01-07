@@ -8,6 +8,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
+    "parcel": "^2.8.2",
     "react-app-polyfill": "^1.0.0"
   },
   "alias": {
@@ -18,7 +19,6 @@
   "devDependencies": {
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.8.4",
-    "parcel-bundler": "1.12.5",
     "typescript": "^4"
   }
 }

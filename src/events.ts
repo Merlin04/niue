@@ -2,14 +2,14 @@ import { DependencyList, useEffect } from "react";
 
 let counter: number = 0;
 
-const PREFIX = "niueevent";
+const PREFIX = "_n";
 
-export default function createEvent<T>(): [
+export const createEvent = <T>(): [
     // Receiver
     (callback: (data: T) => void, deps: DependencyList) => void,
     // Emitter
     (data: T) => void
-] {
+] => {
     const eventName = PREFIX + counter;
     counter++;
 
@@ -33,4 +33,4 @@ export default function createEvent<T>(): [
             document.dispatchEvent(e);
         }
     ]
-}
+};

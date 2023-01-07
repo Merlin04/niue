@@ -1,0 +1,11 @@
+{
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+            "targets": "> 0.5%, not dead, Firefox ESR and supports es6 and supports arrow-functions"
+            // es6 and arrow functions form a good baseline for modern browsers
+        }
+      ]
+    ]
+  }
