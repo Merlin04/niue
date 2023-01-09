@@ -16,7 +16,7 @@ export const createState = <T extends object>(initialValue: T): [
 
     return [
         (keys) => {
-            if(keys) {
+            if(keys !== null) {
                 const rerender = useRerender();
                 useReceiver((changed) => {
                     if(!keys || changed.some(k => keys.includes(k))) {
